@@ -58,37 +58,8 @@ public class DirBridge {
         IOHelper.move(oldUpdates, dirUpdates);
     }
 
-    public static Path getAppDataDir() throws IOException {
-        boolean isCustomDir = Boolean.getBoolean(System.getProperty(USE_CUSTOMDIR_PROPERTY, "false"));
-        if (isCustomDir) {
-            return Paths.get(System.getProperty(CUSTOMDIR_PROPERTY));
-        }
-        if (JVMHelper.OS_TYPE == JVMHelper.OS.LINUX) {
-            boolean isOpt = Boolean.getBoolean(System.getProperty(USE_OPTDIR_PROPERTY, "false"));
-            if (isOpt) {
-                Path opt = Paths.get("/").resolve("opt");
-                if (!IOHelper.isDir(opt)) Files.createDirectories(opt);
-                return opt;
-            } else {
-                Path local = IOHelper.HOME_DIR.resolve(".minecraftlauncher");
-                if (!IOHelper.isDir(local)) Files.createDirectories(local);
-                return local;
-            }
-        } else if (JVMHelper.OS_TYPE == JVMHelper.OS.MUSTDIE) {
-            if (System.getenv().containsKey("appdata"))
-                return Paths.get(System.getenv().get("appdata")).toAbsolutePath();
-            if (System.getenv().containsKey("APPDATA")) // Because it is windows
-                return Paths.get(System.getenv().get("APPDATA")).toAbsolutePath();
-            Path appdata = IOHelper.HOME_DIR.resolve("AppData").resolve("Roaming");
-            if (!IOHelper.isDir(appdata)) Files.createDirectories(appdata);
-            return appdata;
-        } else if (JVMHelper.OS_TYPE == JVMHelper.OS.MACOSX) {
-            Path minecraft = IOHelper.HOME_DIR.resolve("minecraft");
-            if (!IOHelper.isDir(minecraft)) Files.createDirectories(minecraft);
-            return minecraft;
-        } else {
-            return IOHelper.HOME_DIR;
-        }
+    public static Path getAppDataDir() {
+        return IOHelper.HOME_DIR;
     }
 
     public static Path getLauncherDir(String projectname) throws IOException {
