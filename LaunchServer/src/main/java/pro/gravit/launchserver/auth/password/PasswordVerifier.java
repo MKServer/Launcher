@@ -15,6 +15,7 @@ public abstract class PasswordVerifier {
             providers.register("bcrypt", BCryptPasswordVerifier.class);
             providers.register("accept", AcceptPasswordVerifier.class);
             providers.register("reject", RejectPasswordVerifier.class);
+            providers.register("authme", AuthMePasswordVerifier.class);
             registeredProviders = true;
         }
     }
